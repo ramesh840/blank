@@ -1,0 +1,79 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+data=pd.read_csv('Food-Truck-LineReg.csv')
+data
+
+x=data['x'].values
+y=data['y'].values
+print(x)
+print(y)
+
+plt.scatter(x,y)
+
+def mean(list):
+    total=0
+    for i in range(0,len(list)):
+        total+=list[i]
+    return (total/len(list))
+
+x_val=data['x'].values
+y_val=data['y'].values
+x_mean=mean(x_val)
+y_mean=mean(y_val)
+print(x_mean,y_mean)
+
+x2=0
+y2=0
+xy=0
+x_val=data['x'].values
+
+n = data['x'].count()
+for i in range(n):
+    x2=x2+(x[i]**2)
+    y2=y2+(y[i]**2)
+    xy=xy+(x[i]*y[i])
+print(x2,y2,xy)
+
+def standard(list):
+    n=mean(list)
+    temp=0
+    for i in list:
+        temp=temp +((i-n)**2)
+    sd=math.sqrt((temp/len(list)))
+    return sd
+
+r=(xy/((x2**(1/2))*(y2**(1/2))))
+r
+
+std_x=standard(x_val)
+std_y=standard(y_val)
+
+m=(r*(std_y/std_x))
+m
+
+c=mean(y_val) - (m*mean(x_val))
+c
+
+y_pred=[]
+for i in range(n):
+    y_pred.append((m*x[i])+c)
+data['predicted']=y_pred
+data
+
+plt.plot(x,y_pred)
+plt.scatter(x,y)
+
+SST=0
+SSR=0
+SSE=0
+MSE=0
+for i in range(n):
+    SST+=((y[i]-mean(y_val))**2)
+    SSE+=((y[i]-y_pred[i])**2)
+    SSR+=((y_pred[i]-mean(y_val))**2)
+MSE=SST/n
+cost=pow(MSE,(1/2))
+R2=SSR/SST
+print("SST:{}\n SSE:{}\n SSR:{} \nMSE:{}\n cost:{}\n R2: {}\n".format(SST,SSE,SSR,MSE,cost,R2))

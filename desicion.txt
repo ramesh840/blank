@@ -1,0 +1,32 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data=pd.read_csv('zoo.csv')
+data=pd.DataFrame(data)
+data
+
+data.info()
+
+x = data.iloc[:,1:17]
+x.shape
+
+y=data.iloc[:,17]
+y.shape
+
+from sklearn.model_selection import train_test_split
+x_tr,x_te,y_tr,y_te = train_test_split(x,y,train_size=0.8,test_size=0.2)
+from sklearn import tree
+from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+model=tree.DecisionTreeClassifier()
+m1=model.fit(x_tr,y_tr)
+m1_pred=m1.predict(x_te)
+plt.figure(figsize=(15,15))
+tree.plot_tree(m1)
+plt.show()
+
+import warnings
+import sklearn.exceptions
+warnings.filterwarnings("ignore", category=sklearn.exceptions.UndefinedMetricWarning)
+print(classification_report(y_te,m1_pred))
+print(confusion_matrix(m1_pred,y_te))
+print(accuracy_score(m1_pred,y_te))

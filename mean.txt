@@ -1,0 +1,74 @@
+#mean
+l1 = [115.3,195.5,120.5,110.2,90.4,105.6,110.9,116.3,122.3,125.4]
+sum=0
+for i in l1:
+    sum=sum+i
+    
+avg=sum/len(l1)    
+avg
+
+# Bubble sort
+
+for i in range(0,len(l1)):
+    for j in range(i,len(l1)):
+        if l1[i]>l1[j]:
+            l1[i]=l1[i]+l1[j]
+            l1[j]=l1[i]-l1[j]
+            l1[i]=l1[i]-l1[j]
+l1
+
+#median
+i=int(len(l1)/2)
+if i%2==0:
+    res=(l1[i]+l1[i+1])/2
+else:
+    res=l1[i]
+res
+
+#mode
+d={}
+for it in l1:
+    if it in d:
+        d[it]=d[it]+1
+    else:
+        d[it]=1
+maxi=0
+for it in d:
+    if(d[it]>maxi):
+        maxi=d[it]
+        ans=it
+print(ans)
+
+#variance&standard_deviation
+temp=0
+for it in l1:
+    temp = temp+(it-avg)**2
+    
+variance = temp/len(l1)
+sd=(variance)**(1/2)
+
+print(variance)
+print(sd)
+
+
+#normalization
+maxi = 0
+mini = 100000000
+for it in l1:
+    if it>maxi:
+        maxi=it
+    if it<mini:
+        mini=it
+print(mini)
+print(maxi)
+
+norm=[]
+for it in l1:
+    norm.append((it-mini)/(maxi-mini))
+norm
+
+#standardization
+standard = []
+for it in l1:
+    standard.append((it - avg)/sd)
+standard

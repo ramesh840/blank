@@ -1,0 +1,53 @@
+from sklearn.svm import SVC
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+
+
+df=pd.read_csv("/content/sample_data/glass.csv")
+print("dataset",df)
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+print(scaler.fit_transform(df))
+
+x=df.drop('Type',axis=1)
+y=df.Type
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3)
+
+
+from sklearn import svm
+ml=svm.SVC(kernel='linear')
+ml.fit(x_train,y_train)
+
+print(ml.support_vectors_)
+
+print(ml.n_support_)
+
+y_pred=ml.predict(x_test)
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+print("Accuracy Score",accuracy_score(y_test,y_pred))
+print("Confusion Matrix",confusion_matrix(y_test,y_pred))
+print("Classification Report\n",classification_report(y_test,y_pred))
+
+model1=SVC(kernel='sigmoid')
+model2=SVC(kernel='poly')
+model3=SVC(kernel='rbf')
+
+#With Different Kernels
+
+model1.fit(x_train,y_train)
+model2.fit(x_train,y_train)
+model3.fit(x_train,y_train)
+
+ypred1=model1.predict(x_test)
+ypred2=model2.predict(x_test)
+ypred3=model3.predict(x_test)
+
+print("Accuracy Score of kernel 1",accuracy_score(y_test,ypred1))
+
+print("Accuracy Score of kernel 2",accuracy_score(y_test,ypred2))
+
+print("Accuracy Score of kernel 3",accuracy_score(y_test,ypred3))
